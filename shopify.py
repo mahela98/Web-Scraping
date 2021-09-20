@@ -21,11 +21,43 @@ class ShopifyScraper():
 
 
     def parsejson(self,jsondata):
-        print(jsondata)
+        products=[]
+        for product in jsondata:
+            mainId= product['id']
+            mainTitle=product['title']
+            vendor= product['vendor']
+            product_type= product['product_type']
+
+            for variant in product['variants']:
+                item={
+                    'id':mainId,
+                    'product_type':product_type,
+                    'mainTitle':mainTitle,
+                    'vendor':vendor,
+                    'variantId': variant['id'],
+                    'vTitle': variant['title'],
+                    'requires_shipping': variant['requires_shipping'],
+                    'taxable': variant['taxable'],
+                    'available': variant['available'],
+                    'created_at': variant['created_at'],
+                    'updated_at': variant['updated_at'],
+                    'price': variant['price'],
+                    'position': variant['position'],
+
+                }
+                print(item)
+
+
+            
+
+
+
+
 
 
 
 all = ShopifyScraper('https://www.allbirds.co.uk/')
 data = all.downloadJson(1)
+all.parsejson(data)
 
-print(data)
+# print(data)
