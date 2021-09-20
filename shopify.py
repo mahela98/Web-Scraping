@@ -45,19 +45,32 @@ class ShopifyScraper():
                     'position': variant['position'],
 
                 }
-                print(item)
+                products.append(item)
+                # print(item)
 
 
             
 
+def main():
+    all = ShopifyScraper('https://www.allbirds.co.uk/')
+    results=[]
+    for page in range(1,10):
+
+        data = all.downloadJson(page)
+        try:
+            results.append(all.parsejson(data))
+        except:
+            print(f'completed , pages = {page -1}')
+            break
+    return results
+
+
+main()
 
 
 
 
 
 
-all = ShopifyScraper('https://www.allbirds.co.uk/')
-data = all.downloadJson(1)
-all.parsejson(data)
 
 # print(data)
