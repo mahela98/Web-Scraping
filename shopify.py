@@ -11,11 +11,9 @@ class ShopifyScraper():
         r= requests.get(self.baseurl + f'products.json?limit=250&page={pageNumber}',timeout=20)
         if r.status_code !=200:
             print('Error : ' , r.status_code)
-        
         if len(r.json()['products']) > 0:
             data = r.json()['products']
             return data
-
         else:
             return
 
@@ -23,11 +21,11 @@ class ShopifyScraper():
     def parsejson(self,jsondata):
         products=[]
         for product in jsondata:
+            print(len(jsondata))
             mainId= product['id']
             mainTitle=product['title']
             vendor= product['vendor']
             product_type= product['product_type']
-
             for variant in product['variants']:
                 item={
                     'id':mainId,
@@ -43,30 +41,37 @@ class ShopifyScraper():
                     'updated_at': variant['updated_at'],
                     'price': variant['price'],
                     'position': variant['position'],
-
                 }
                 products.append(item)
-                # print(item)
+           
+            print('product length : '+ len(products))
+            return products
 
 
             
 
 def main():
     all = ShopifyScraper('https://www.allbirds.co.uk/')
-    results=[]
+    allPagePesults=[]
     for page in range(1,10):
-
         data = all.downloadJson(page)
+        # print(data)
+        print('Getting data from: ',page)
         try:
-            results.append(all.parsejson(data))
+            allPagePesults.append(all.parsejson(data))
+            # print(all.parsejson(data))
         except:
             print(f'completed , pages = {page -1}')
             break
-    return results
+    return allPagePesults
 
 
-main()
+products=main()
+# print(products)
 
+totalProducts = [item for i in products for item in i]
+
+print(len(totalProducts))
 
 
 
