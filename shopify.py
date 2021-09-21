@@ -19,9 +19,8 @@ class ShopifyScraper():
 
 
     def parsejson(self,jsondata):
-        products=[]
+        productsArray=[]
         for product in jsondata:
-            print(len(jsondata))
             mainId= product['id']
             mainTitle=product['title']
             vendor= product['vendor']
@@ -42,10 +41,8 @@ class ShopifyScraper():
                     'price': variant['price'],
                     'position': variant['position'],
                 }
-                products.append(item)
-           
-            print('product length : '+ len(products))
-            return products
+                productsArray.append(item)  
+        return productsArray
 
 
             
@@ -55,11 +52,9 @@ def main():
     allPagePesults=[]
     for page in range(1,10):
         data = all.downloadJson(page)
-        # print(data)
         print('Getting data from: ',page)
         try:
             allPagePesults.append(all.parsejson(data))
-            # print(all.parsejson(data))
         except:
             print(f'completed , pages = {page -1}')
             break
@@ -67,11 +62,8 @@ def main():
 
 
 products=main()
-# print(products)
-
 totalProducts = [item for i in products for item in i]
-
-print(len(totalProducts))
+print('Total Products',len(totalProducts))
 
 
 
