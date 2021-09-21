@@ -1,6 +1,6 @@
 import requests
 import json
-# import dataset
+# import dataset4
 
 
 class ShopifyScraper():
@@ -64,6 +64,19 @@ def main():
 products=main()
 totalProducts = [item for i in products for item in i]
 print('Total Products',len(totalProducts))
+
+# if __name__ == '__main__':
+
+#     # db = dataset.connect('location')
+#     # table = db.create_table('products',primary_id='variantId')
+#     # products=main()
+#     # totalProducts = [item for i in products for item in i]
+#     print('Total Products',len(totalProducts))
+
+#     # for p in totalProducts:
+#     #     if not table.find_one(variantId=p['variantId']):
+#     #         table.insert(p) 
+#     #         print('new product :' , p)
 
 
 
